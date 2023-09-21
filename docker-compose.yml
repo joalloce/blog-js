@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  frontend:
+    build: "./frontend"
+    depends_on:
+      - backend
+    ports:
+      - 8000:3000
+    volumes:
+      - './frontend:/usr/app'
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WDS_SOCKET_PORT=0
+
+  backend:
+    build: "./backend"
+    depends_on:
+      - db
+    environment:
+      - DB_URI=postgres://postgres:password@users-service-db/db?schema=public
+    ports:
+      - 8101:8101
+    volumes:
+      - ./users-service:/opt/app
+
+  db:
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    image: postgres:14.5
+    ports:
+      - 0.0.0.0:8201:5432
