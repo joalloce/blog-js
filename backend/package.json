@@ -4,9 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "node src/index.js"
+    "watch": "babel-watch -L src/index.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.22.20",
+    "@babel/preset-env": "^7.22.20",
+    "babel-plugin-module-resolver": "^5.0.0"
+  },
+  "devDependencies": {
+    "babel-watch": "^7.8.1"
+  }
 }
