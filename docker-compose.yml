@@ -18,6 +18,8 @@ services:
     build: "./backend"
     depends_on:
       - db
+    environment:
+      - DB_URI=mysql://root:password@db/db?charset=UTF8
     ports:
       - 8101:8101
     volumes:

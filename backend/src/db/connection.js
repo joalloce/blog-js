@@ -1,10 +1,10 @@
 import { Sequelize } from "sequelize";
 
-// import accessEnv from "#root/helpers/accessEnv";
+import accessEnv from "#root/helpers/accessEnv";
 
-//const DB_URI = accessEnv("DB_URI");
+const DB_URI = accessEnv("DB_URI");
 
-const sequelize = new Sequelize("mysql://root:password@db/db?charset=UTF8", {
+const sequelize = new Sequelize(DB_URI, {
   dialectOptions: {
     charset: "utf8",
     multipleStatements: true,
@@ -22,4 +22,5 @@ const testConnection = async () => {
 };
 
 testConnection();
+
 export default sequelize;
