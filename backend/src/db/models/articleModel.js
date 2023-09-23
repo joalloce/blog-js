@@ -2,34 +2,26 @@ import { DataTypes, Model } from "sequelize";
 
 import sequelize from "#root/db/connection";
 
-export class User extends Model {}
+export class Article extends Model {}
 
-User.init(
+Article.init(
   {
     id: {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID,
     },
-    email: {
+    title: {
       allowNull: false,
       type: DataTypes.STRING,
-      unique: true,
     },
-    passwordHash: {
+    content: {
       allowNull: false,
-      type: DataTypes.CHAR(64),
-    },
-    name: {
-      allowNull: false,
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
   },
   {
-    defaultScope: {
-      rawAttributes: { exclude: ["passwordHash"] },
-    },
     sequelize,
-    modelName: "users",
+    modelName: "articles",
   }
 );
