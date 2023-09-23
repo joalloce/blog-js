@@ -4,6 +4,7 @@ import express from "express";
 import accessEnv from "#root/helpers/accessEnv";
 import articleRouter from "#root/server/routes/articles";
 import userRouter from "#root/server/routes/users";
+import debugInfo from "#root/middleware/debugInfo";
 
 const PORT = accessEnv("PORT", 8101);
 
@@ -18,6 +19,8 @@ app.use(
 );
 
 app.use(express.json());
+
+app.use(debugInfo);
 
 app.use("/api/articles", articleRouter);
 app.use("/api/users", userRouter);
