@@ -6,6 +6,8 @@
   "scripts": {
     "db:migrate": "sequelize db:migrate",
     "db:migrate:undo": "sequelize db:migrate:undo",
+    "db:seed:all": "sequelize db:seed:all",
+    "db:seed:all:undo": "sequelize db:seed:undo:all",
     "watch": "babel-watch -L src/index.js"
   },
   "keywords": [],
