@@ -1,4 +1,4 @@
-import { Article } from "#root/db/models/articleModel";
+import { Article, Comment, User } from "#root/db/models";
 
 // create an article
 export const createArticle = async (req, res, next) => {
@@ -45,7 +45,9 @@ export const getArticle = async (req, res, next) => {
 
 // get articles
 export const getArticles = async (req, res, next) => {
-  const users = await Article.findAll();
+  const users = await Article.findAll({
+    include: [{ model: Comment }, { model: User, as: "author" }],
+  });
 
   return res.json(users);
 };

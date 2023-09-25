@@ -15,6 +15,14 @@ Comment.init(
       allowNull: false,
       type: DataTypes.TEXT,
     },
+    articleId: {
+      allowNull: false,
+      references: {
+        key: "id",
+        model: "articles",
+      },
+      type: DataTypes.UUID,
+    },
   },
   {
     sequelize,

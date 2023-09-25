@@ -19,6 +19,14 @@ Article.init(
       allowNull: false,
       type: DataTypes.TEXT,
     },
+    userId: {
+      allowNull: false,
+      references: {
+        key: "id",
+        model: "users",
+      },
+      type: DataTypes.UUID,
+    },
   },
   {
     sequelize,
