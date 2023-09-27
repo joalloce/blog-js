@@ -1,5 +1,6 @@
 import cors from "cors";
 import express from "express";
+import morgan from "morgan";
 
 import accessEnv from "#root/helpers/accessEnv";
 import articleRouter from "#root/server/routes/articles";
@@ -21,6 +22,8 @@ app.use(
 app.use(express.json());
 
 app.use(debugInfo);
+
+app.use(morgan(":method :url :status :response-time ms [:date]"));
 
 app.use("/api/articles", articleRouter);
 app.use("/api/users", userRouter);

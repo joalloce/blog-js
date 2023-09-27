@@ -20,6 +20,7 @@ services:
       - db
     environment:
       - DB_URI=mysql://root:password@db/db?charset=UTF8
+      - TEST_DB_URI=mysql://root:password@db/testing?charset=UTF8
     ports:
       - 8101:8101
     volumes:
