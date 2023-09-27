@@ -23,7 +23,8 @@ services:
     ports:
       - 8101:8101
     volumes:
-      - ./backend:/opt/app
+      - './backend:/opt/app'
+      - /opt/app/node_modules
 
   db:
     environment:
