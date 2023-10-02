@@ -3,8 +3,12 @@ import { Sequelize } from "sequelize";
 import accessEnv from "#root/helpers/accessEnv";
 
 const DB_URI = accessEnv("DB_URI");
+const TEST_DB_URI = accessEnv("TEST_DB_URI");
+const NODE_ENV = accessEnv("NODE_ENV", "development");
 
-const sequelize = new Sequelize(DB_URI, {
+const databaseURL = NODE_ENV === "test" ? TEST_DB_URI : DB_URI;
+
+const sequelize = new Sequelize(databaseURL, {
   dialectOptions: {
     charset: "utf8",
     multipleStatements: true,

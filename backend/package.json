@@ -12,7 +12,11 @@
     "db:seed:undo:all": "sequelize db:seed:undo:all",
     "db:seed:reset": "npm run db:seed:undo:all && npm run db:seed:all",
     "db:list-migrations": "sequelize db:migrate:status",
-    "watch": "babel-watch -L src/index.js"
+    "watch": "babel-watch -L src/index.js",
+    "test": "NODE_ENV=test jest",
+    "db:migrate:reset:test": "NODE_ENV=test npm run db:migrate:reset",
+    "db:seed:reset:test": "NODE_ENV=test npm run db:seed:reset",
+    "test:full": "npm run db:seed:reset:test && npm run test"
   },
   "keywords": [],
   "author": "",
