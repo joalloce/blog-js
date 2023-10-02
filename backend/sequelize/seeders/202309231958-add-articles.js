@@ -1,16 +1,14 @@
+const faker = require("../helpers/faker");
+
 module.exports = {
   up: async (queryInterface) => {
     const generateArticlesData = (count) => {
       const articlesData = [];
       for (let i = 1; i <= count; i++) {
-        const articleData = {
-          id: i,
-          title: `Article ${i}`,
-          content: `Content for Article ${i}`,
-          userId: Math.floor(Math.random() * 10) + 1,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        };
+        const articleData = faker.createRandomArticle(
+          i,
+          Math.floor(Math.random() * 10) + 1
+        );
         articlesData.push(articleData);
       }
       return articlesData;

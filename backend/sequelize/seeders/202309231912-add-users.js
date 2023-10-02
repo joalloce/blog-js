@@ -1,16 +1,11 @@
+const faker = require("../helpers/faker");
+
 module.exports = {
   up: async (queryInterface) => {
     const generateUsersData = (count) => {
       const usersData = [];
       for (let i = 1; i <= count; i++) {
-        const userData = {
-          id: i,
-          name: `user${i}`,
-          email: `user${i}@example.com`,
-          passwordHash: `password${i}`,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        };
+        const userData = faker.createRandomUser(i);
         usersData.push(userData);
       }
       return usersData;
