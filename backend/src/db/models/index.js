@@ -9,4 +9,7 @@ Comment.belongsTo(Article, { foreignKey: "articleId" });
 User.hasMany(Article, { foreignKey: "userId" });
 Article.belongsTo(User, { foreignKey: "userId", as: "author" });
 
+User.hasMany(Comment, { foreignKey: "userId" });
+Comment.belongsTo(User, { foreignKey: "userId", as: "author" });
+
 export { Article, Comment, User, sequelize };

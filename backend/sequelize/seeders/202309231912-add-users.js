@@ -5,7 +5,7 @@ module.exports = {
     const generateUsersData = (count) => {
       const usersData = [];
       for (let i = 1; i <= count; i++) {
-        const userData = faker.createRandomUser(i);
+        const userData = faker.createRandomUser({ id: i });
         usersData.push(userData);
       }
       return usersData;

@@ -1,6 +1,6 @@
 const { faker } = require("@faker-js/faker");
 
-function createRandomUser(id) {
+function createRandomUser({ id }) {
   return {
     id,
     email: faker.internet.email(),
@@ -11,7 +11,7 @@ function createRandomUser(id) {
   };
 }
 
-function createRandomArticle(id, userId) {
+function createRandomArticle({ id, userId }) {
   return {
     id,
     title: faker.lorem.words(),
@@ -22,11 +22,12 @@ function createRandomArticle(id, userId) {
   };
 }
 
-function createRandomComment(id, articleId) {
+function createRandomComment({ id, articleId, userId }) {
   return {
     id,
     content: faker.lorem.sentence(),
     articleId,
+    userId,
     createdAt: new Date(),
     updatedAt: new Date(),
   };

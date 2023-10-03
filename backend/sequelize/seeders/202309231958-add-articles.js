@@ -5,10 +5,10 @@ module.exports = {
     const generateArticlesData = (count) => {
       const articlesData = [];
       for (let i = 1; i <= count; i++) {
-        const articleData = faker.createRandomArticle(
-          i,
-          Math.floor(Math.random() * 10) + 1
-        );
+        const articleData = faker.createRandomArticle({
+          id: i,
+          userId: Math.floor(Math.random() * 10) + 1,
+        });
         articlesData.push(articleData);
       }
       return articlesData;

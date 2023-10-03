@@ -23,6 +23,14 @@ Comment.init(
       },
       type: DataTypes.UUID,
     },
+    userId: {
+      allowNull: false,
+      references: {
+        key: "id",
+        model: "users",
+      },
+      type: DataTypes.UUID,
+    },
   },
   {
     sequelize,

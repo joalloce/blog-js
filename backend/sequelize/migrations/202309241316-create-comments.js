@@ -20,6 +20,14 @@ module.exports = {
             key: "id",
           },
         },
+        userId: {
+          allowNull: false,
+          type: DataTypes.UUID,
+          references: {
+            model: "users",
+            key: "id",
+          },
+        },
         createdAt: {
           allowNull: false,
           type: DataTypes.DATE,
