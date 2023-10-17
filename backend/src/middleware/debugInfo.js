@@ -8,11 +8,13 @@ const debugInfo = (req, res, next) => {
     const responseTime = endTime - startTime;
 
     let newData = {};
+    let debugInfo = {};
     newData.data = data;
-    newData.responseTime = responseTime;
-    newData.params = req.params;
-    newData.HTTPmethod = req.method;
-    newData.endpoint = req.originalUrl;
+    debugInfo.responseTime = responseTime;
+    debugInfo.params = req.params;
+    debugInfo.HTTPmethod = req.method;
+    debugInfo.endpoint = req.originalUrl;
+    newData.debugInfo = debugInfo;
 
     originalJson.call(this, newData);
   };

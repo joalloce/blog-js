@@ -1,4 +1,4 @@
-import { Article, Comment } from "#root/db/models";
+import { Article, User, Comment } from "#root/db/models";
 
 // create a comment
 export const createComment = async (req, res, next) => {
@@ -45,11 +45,11 @@ export const getComment = async (req, res, next) => {
 
 // get comments
 export const getComments = async (req, res, next) => {
-  const users = await Comment.findAll({
-    include: [{ model: Comment }, { model: Article }],
+  const comments = await Comment.findAll({
+    include: [{ model: User, as: "author" }, { model: Article }],
   });
 
-  return res.json(users);
+  return res.json(comments);
 };
 
 // update a comment by id
