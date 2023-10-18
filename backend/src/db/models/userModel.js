@@ -27,7 +27,7 @@ User.init(
   },
   {
     defaultScope: {
-      rawAttributes: { exclude: ["passwordHash"] },
+      attributes: { exclude: ["passwordHash"] },
     },
     sequelize,
     modelName: "users",

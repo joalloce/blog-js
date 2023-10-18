@@ -19,10 +19,10 @@ router.get("/:id", getArticle);
 router.get("/", getArticles);
 
 // id params
-// title, content
+// title, content, author
 router.patch("/:id", updateArticle);
 
-// title, content
+// title, content, author
 router.post("/", createArticle);
 
 export default router;

@@ -1,11 +1,17 @@
 import { Article, User, Comment } from "#root/db/models";
+import generateUUID from "#root/helpers/generateUUID";
 
 // create a comment
 export const createComment = async (req, res, next) => {
   try {
-    const { content } = req.body;
+    const { articleId, author, content } = req.body;
 
-    const comment = await Comment.create({ content });
+    const comment = await Comment.create({
+      articleId,
+      userId: author,
+      id: generateUUID(),
+      content,
+    });
     return res.json(comment);
   } catch (e) {
     return next(e);

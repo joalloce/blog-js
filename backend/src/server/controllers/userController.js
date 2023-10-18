@@ -1,11 +1,18 @@
 import { User, Article } from "#root/db/models";
+import generateUUID from "#root/helpers/generateUUID";
+import hashPassword from "#root/helpers/hashPassword";
+import passwordCompareSync from "#root/helpers/passwordCompareSync";
 
 // create an user
 export const createUser = async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
-
-    const user = await User.create({ email, password, name });
+    const user = await User.create({
+      email,
+      id: generateUUID(),
+      name,
+      passwordHash: hashPassword(password),
+    });
     return res.json(user);
   } catch (e) {
     return next(e);

@@ -1,11 +1,17 @@
 import { Article, Comment, User } from "#root/db/models";
+import generateUUID from "#root/helpers/generateUUID";
 
 // create an article
 export const createArticle = async (req, res, next) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, author } = req.body;
 
-    const article = await Article.create({ title, content });
+    const article = await Article.create({
+      id: generateUUID(),
+      title,
+      content,
+      userId: author,
+    });
     return res.json(article);
   } catch (e) {
     return next(e);

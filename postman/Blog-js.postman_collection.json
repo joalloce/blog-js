@@ -49,6 +49,64 @@
 			"response": []
 		},
 		{
+			"name": "postUser",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "name4",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password4",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "email4@email2.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8101/api/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "getArticles",
 			"request": {
 				"method": "GET",
@@ -91,10 +149,30 @@
 			"response": []
 		},
 		{
-			"name": "getComments",
+			"name": "postArticle",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "title",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "content",
+							"type": "text"
+						},
+						{
+							"key": "author",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
 					"raw": "http://localhost:8101/api/articles/",
 					"protocol": "http",
@@ -112,12 +190,12 @@
 			"response": []
 		},
 		{
-			"name": "getComment",
+			"name": "getComments",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8101/api/articles/1",
+					"raw": "http://localhost:8101/api/comments/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -125,8 +203,70 @@
 					"port": "8101",
 					"path": [
 						"api",
-						"articles",
+						"comments",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getComment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8101/api/comments/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"comments",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postComment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "articleId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "author",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "content",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8101/api/comments/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"comments",
+						""
 					]
 				}
 			},
