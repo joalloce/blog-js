@@ -44,8 +44,8 @@ export const getComment = async (req, res, next) => {
 
     const comment = await Comment.findByPk(id);
 
-    // check if review exists
-    if (!comment) return next(new Error("Invalid id"));
+    // check if comment exists
+    if (!comment) return res.status(404).json({ error: "Comment not found" });
 
     return res.json(comment);
   } catch (error) {
@@ -69,17 +69,13 @@ export const updateComment = async (req, res, next) => {
 
     const { id } = req.params;
 
-    const ok = await Comment.update(
-      { content },
-      {
-        where: {
-          id,
-        },
-      }
-    );
+    const comment = await Comment.findByPk(id);
 
-    if (!ok) return next(new Error("Invalid update"));
-    return res.json(ok);
+    comment.content = content;
+
+    await comment.save();
+
+    return res.json(comment);
   } catch (error) {
     return res.status(500).json({ error });
   }

@@ -19,7 +19,7 @@ router.get("/:id", getComment);
 router.get("/", getComments);
 
 // id params
-// title, content
+// title, content, author
 router.patch("/:id", updateComment);
 
 // title, content

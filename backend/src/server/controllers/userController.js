@@ -46,8 +46,8 @@ export const getUser = async (req, res, next) => {
 
     const user = await User.findByPk(id);
 
-    // check if review exists
-    if (!user) return next(new Error("Invalid id"));
+    // check if user exists
+    if (!user) return res.status(404).json({ error: "User not found" });
 
     return res.json(user);
   } catch (error) {
@@ -71,17 +71,17 @@ export const updateUser = async (req, res, next) => {
 
     const { id } = req.params;
 
-    const ok = await User.update(
-      { email, password, name },
-      {
-        where: {
-          id,
-        },
-      }
-    );
+    const user = await User.findByPk(id);
 
-    if (!ok) return next(new Error("Invalid update"));
-    return res.json(ok);
+    user.email = email;
+    user.passwordHash = hashPassword(password);
+    user.name = name;
+
+    await user.save();
+
+    user.passwordHash = undefined; // passwordHash excluded
+
+    return res.json(user);
   } catch (error) {
     return res.status(500).json({ error });
   }
