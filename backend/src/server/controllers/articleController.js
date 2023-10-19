@@ -13,7 +13,7 @@ export const createArticle = async (req, res, next) => {
       userId: author,
     });
 
-    return res.json(article);
+    return res.status(201).json(article);
   } catch (error) {
     return res.status(500).json({ error });
   }

@@ -13,7 +13,7 @@ export const createComment = async (req, res, next) => {
       content,
     });
 
-    return res.json(comment);
+    return res.status(201).json(comment);
   } catch (error) {
     return res.status(500).json({ error });
   }

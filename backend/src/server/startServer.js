@@ -11,6 +11,7 @@ import commentRouter from "#root/server/routes/comments";
 import userRouter from "#root/server/routes/users";
 
 const PORT = accessEnv("PORT", 8101);
+const NODE_ENV = accessEnv("NODE_ENV", "development");
 
 const app = express();
 
@@ -35,6 +36,10 @@ app.use("/api/articles", articleRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/users", userRouter);
 
-app.listen(PORT, () => {
-  console.log(`backend listening on port ${PORT}`);
-});
+if (NODE_ENV !== "test") {
+  app.listen(PORT, () => {
+    console.log(`backend listening on port ${PORT}`);
+  });
+}
+
+export default app;
