@@ -24,7 +24,8 @@ const testConnection = async () => {
     console.error("Unable to connect to the database:", error);
   }
 };
-
-testConnection();
+if (NODE_ENV === "development") {
+  testConnection();
+}
 
 export default sequelize;
