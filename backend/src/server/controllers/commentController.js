@@ -12,9 +12,10 @@ export const createComment = async (req, res, next) => {
       id: generateUUID(),
       content,
     });
+
     return res.json(comment);
-  } catch (e) {
-    return next(e);
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 };
 
@@ -23,13 +24,16 @@ export const deleteComment = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const ok = await Comment.destroy({ where: { id } });
+    const comment = await Comment.findByPk(id);
 
     // check if id is valid
-    if (!ok) return next(new Error("Invalid id"));
-    return res.json(ok);
-  } catch (e) {
-    return next(e);
+    if (!comment) return res.status(404).json({ error: "Comment not found" });
+
+    await comment.destroy();
+
+    return res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 };
 
@@ -44,8 +48,8 @@ export const getComment = async (req, res, next) => {
     if (!comment) return next(new Error("Invalid id"));
 
     return res.json(comment);
-  } catch (e) {
-    return next(e);
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 };
 
@@ -76,7 +80,7 @@ export const updateComment = async (req, res, next) => {
 
     if (!ok) return next(new Error("Invalid update"));
     return res.json(ok);
-  } catch (e) {
-    return next(e);
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 };

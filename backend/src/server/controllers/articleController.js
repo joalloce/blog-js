@@ -12,9 +12,10 @@ export const createArticle = async (req, res, next) => {
       content,
       userId: author,
     });
+
     return res.json(article);
-  } catch (e) {
-    return next(e);
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 };
 
@@ -23,13 +24,16 @@ export const deleteArticle = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const ok = await Article.destroy({ where: { id } });
+    const article = await Article.findByPk(id);
 
     // check if id is valid
-    if (!ok) return next(new Error("Invalid id"));
-    return res.json(ok);
-  } catch (e) {
-    return next(e);
+    if (!article) return res.status(404).json({ error: "User not found" });
+
+    await article.destroy();
+
+    return res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 };
 
@@ -44,8 +48,8 @@ export const getArticle = async (req, res, next) => {
     if (!article) return next(new Error("Invalid id"));
 
     return res.json(article);
-  } catch (e) {
-    return next(e);
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 };
 
@@ -76,7 +80,7 @@ export const updateArticle = async (req, res, next) => {
 
     if (!ok) return next(new Error("Invalid update"));
     return res.json(ok);
-  } catch (e) {
-    return next(e);
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 };
