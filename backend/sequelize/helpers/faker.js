@@ -33,6 +33,15 @@ function createRandomComment({ id, articleId, userId }) {
   };
 }
 
+function createRandomTag({ id }) {
+  return {
+    id,
+    content: getUniqueTag(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+}
+
 const uniqueTags = new Set();
 
 function getUniqueTag() {
@@ -45,7 +54,8 @@ function getUniqueTag() {
 }
 
 module.exports = {
-  createRandomUser,
   createRandomArticle,
   createRandomComment,
+  createRandomUser,
+  createRandomTag,
 };
