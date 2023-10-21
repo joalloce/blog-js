@@ -44,7 +44,9 @@ export const getUser = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, {
+      include: [{ model: Article }],
+    });
 
     // check if user exists
     if (!user) return res.status(404).json({ error: "User not found" });
@@ -57,9 +59,7 @@ export const getUser = async (req, res, next) => {
 
 // get users
 export const getUsers = async (req, res, next) => {
-  const users = await User.findAll({
-    include: [{ model: Article }],
-  });
+  const users = await User.findAll();
 
   return res.json(users);
 };

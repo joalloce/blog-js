@@ -1,4 +1,4 @@
-import { Article, Comment, User } from "#root/db/models";
+import { Article, Comment, User, Tag } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
 
 // create an article
@@ -42,7 +42,18 @@ export const getArticle = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const article = await Article.findByPk(id);
+    const article = await Article.findByPk(id, {
+      include: [
+        {
+          model: Tag,
+          as: "tags",
+          through: {
+            attributes: [],
+          },
+        },
+        { model: Comment },
+      ],
+    });
 
     // check if article exists
     if (!article) return res.status(404).json({ error: "User not found" });
@@ -56,7 +67,7 @@ export const getArticle = async (req, res, next) => {
 // get articles
 export const getArticles = async (req, res, next) => {
   const users = await Article.findAll({
-    include: [{ model: Comment }, { model: User, as: "author" }],
+    include: [{ model: User, as: "author" }],
   });
 
   return res.json(users);
