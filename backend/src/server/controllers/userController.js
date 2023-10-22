@@ -73,6 +73,9 @@ export const updateUser = async (req, res, next) => {
 
     const user = await User.findByPk(id);
 
+    // check if user exists
+    if (!user) return res.status(404).json({ error: "User not found" });
+
     user.email = email;
     user.passwordHash = hashPassword(password);
     user.name = name;

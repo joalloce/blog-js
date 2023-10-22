@@ -19,10 +19,10 @@ router.get("/:id", getComment);
 router.get("/", getComments);
 
 // id params
-// title, content, author
+// content
 router.patch("/:id", updateComment);
 
-// title, content
+// articleId, content, author
 router.post("/", createComment);
 
 export default router;

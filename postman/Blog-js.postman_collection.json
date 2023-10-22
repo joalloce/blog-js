@@ -107,6 +107,68 @@
 			"response": []
 		},
 		{
+			"name": "deleteUser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8101/api/users/f89bccb8-bda7-4e66-8606-53b8b376ba7a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"users",
+						"f89bccb8-bda7-4e66-8606-53b8b376ba7a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchUser",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "name 2",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "email3@email3.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password 2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8101/api/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "getArticles",
 			"request": {
 				"method": "GET",
@@ -190,6 +252,63 @@
 			"response": []
 		},
 		{
+			"name": "deleteArticle",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8101/api/articles/f4a2937a-3e35-4c64-9a5a-28538d7fa4fa",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"articles",
+						"f4a2937a-3e35-4c64-9a5a-28538d7fa4fa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchArticle",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "title 1",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "content 1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8101/api/articles/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"articles",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "getComments",
 			"request": {
 				"method": "GET",
@@ -267,6 +386,188 @@
 						"api",
 						"comments",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteComment",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8101/api/comments/f773101c-e68e-46fc-8faa-c027202ddbcd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"comments",
+						"f773101c-e68e-46fc-8faa-c027202ddbcd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchComment",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "title 1",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "content 1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8101/api/comments/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"comments",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTags",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8101/api/tags/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"tags",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTag",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8101/api/tags/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"tags",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postTag",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "content",
+							"value": "tag",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8101/api/tags/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"tags",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTag",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8101/api/comments/f773101c-e68e-46fc-8faa-c027202ddbcd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"comments",
+						"f773101c-e68e-46fc-8faa-c027202ddbcd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchTag",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "content",
+							"value": "tag1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8101/api/article/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8101",
+					"path": [
+						"api",
+						"article",
+						"1"
 					]
 				}
 			},

@@ -9,6 +9,7 @@ import debugInfo from "#root/middleware/debugInfo";
 import articleRouter from "#root/server/routes/articles";
 import commentRouter from "#root/server/routes/comments";
 import userRouter from "#root/server/routes/users";
+import tagRouter from "#root/server/routes/tags";
 
 const PORT = accessEnv("PORT", 8101);
 const NODE_ENV = accessEnv("NODE_ENV", "development");
@@ -35,6 +36,7 @@ app.use(morgan(":method :url :status :response-time ms [:date]"));
 app.use("/api/articles", articleRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/users", userRouter);
+app.use("/api/tags", tagRouter);
 
 if (NODE_ENV !== "test") {
   app.listen(PORT, () => {

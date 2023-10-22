@@ -71,6 +71,9 @@ export const updateComment = async (req, res, next) => {
 
     const comment = await Comment.findByPk(id);
 
+    // check if comment exists
+    if (!comment) return res.status(404).json({ error: "Comment not found" });
+
     comment.content = content;
 
     await comment.save();
