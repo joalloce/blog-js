@@ -15,12 +15,12 @@ Comment.init(
       allowNull: false,
       type: DataTypes.TEXT,
     },
-    articleId: {
+    commentableType: {
       allowNull: false,
-      references: {
-        key: "id",
-        model: "articles",
-      },
+      type: DataTypes.STRING,
+    },
+    commentableId: {
+      allowNull: false,
       type: DataTypes.UUID,
     },
     userId: {

@@ -2,9 +2,9 @@ const faker = require("../helpers/faker");
 
 module.exports = {
   up: async (queryInterface) => {
-    const generateUsersData = (count) => {
+    const generateUsersData = (numUsers) => {
       const usersData = [];
-      for (let i = 1; i <= count; i++) {
+      for (let i = 1; i <= numUsers; i++) {
         const userData = faker.createRandomUser({ id: i });
         usersData.push(userData);
       }

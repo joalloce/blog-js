@@ -2,9 +2,9 @@ const faker = require("../helpers/faker");
 
 module.exports = {
   up: async (queryInterface) => {
-    const generateTagsData = (count) => {
+    const generateTagsData = (numTags) => {
       const tagsData = [];
-      for (let i = 1; i <= count; i++) {
+      for (let i = 1; i <= numTags; i++) {
         const tagData = faker.createRandomTag({
           id: i,
         });

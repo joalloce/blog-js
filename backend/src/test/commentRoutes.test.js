@@ -25,6 +25,21 @@ describe("Comment API", () => {
     expect(res.statusCode).toEqual(201);
   });
 
+  it("should create a new reply", async () => {
+    const res = await request(server)
+      .post(`/api/comments/${commentId}/replies`)
+      .send({
+        author: 1,
+        content: "content",
+      });
+    expect(res.statusCode).toEqual(201);
+  });
+
+  it("should show comment replies", async () => {
+    const res = await request(server).get(`/api/comments/${commentId}/replies`);
+    expect(res.statusCode).toEqual(200);
+  });
+
   it("should show all comments", async () => {
     const res = await request(server).get("/api/comments");
     expect(res.statusCode).toEqual(200);

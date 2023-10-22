@@ -2,9 +2,11 @@ import express from "express";
 
 import {
   createComment,
+  createReply,
   deleteComment,
   getComment,
   getComments,
+  getReplies,
   updateComment,
 } from "#root/server/controllers/commentController";
 
@@ -24,5 +26,11 @@ router.patch("/:id", updateComment);
 
 // articleId, content, author
 router.post("/", createComment);
+
+// id params
+router.post("/:id/replies", createReply);
+
+// id params
+router.get("/:id/replies", getReplies);
 
 export default router;

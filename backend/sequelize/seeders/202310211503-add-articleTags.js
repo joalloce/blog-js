@@ -3,11 +3,11 @@ const _ = require("lodash");
 
 module.exports = {
   up: async (queryInterface) => {
-    const generateArticleTagsData = (numArticle, numTags, maxTags) => {
+    const generateArticleTagsData = (numArticles, numTags, maxTags) => {
       const articleTagsData = [];
       let tags = _.times(numTags, (n) => n + 1); // [1,2...numTags]
       tags = _.shuffle(tags);
-      for (let i = 1; i <= numArticle; i++) {
+      for (let i = 1; i <= numArticles; i++) {
         let tagCount = _.random(1, maxTags);
         let selectedTags = _.sampleSize(tags, tagCount);
         for (const tagId of selectedTags) {

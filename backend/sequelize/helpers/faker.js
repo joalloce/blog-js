@@ -22,11 +22,12 @@ function createRandomArticle({ id, userId }) {
   };
 }
 
-function createRandomComment({ id, articleId, userId }) {
+function createRandomComment({ id, commentableId, commentableType, userId }) {
   return {
     id,
     content: faker.lorem.sentence(),
-    articleId,
+    commentableId,
+    commentableType,
     userId,
     createdAt: new Date(),
     updatedAt: new Date(),

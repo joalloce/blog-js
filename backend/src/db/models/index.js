@@ -5,8 +5,25 @@ import { Comment } from "#root/db/models/commentModel";
 import { Tag } from "#root/db/models/tagModel";
 import { User } from "#root/db/models/userModel";
 
-Article.hasMany(Comment, { foreignKey: "articleId" });
-Comment.belongsTo(Article, { foreignKey: "articleId" });
+Article.hasMany(Comment, { foreignKey: "commentableId", constraints: false });
+Comment.belongsTo(Article, {
+  foreignKey: "commentableId",
+  constraints: false,
+  as: "article",
+  scope: {
+    commentable_type: "article",
+  },
+});
+
+Comment.hasMany(Comment, { foreignKey: "commentableId", constraints: false });
+Comment.belongsTo(Comment, {
+  foreignKey: "commentableId",
+  constraints: false,
+  as: "replies",
+  scope: {
+    commentable_type: "comment",
+  },
+});
 
 User.hasMany(Article, { foreignKey: "userId" });
 Article.belongsTo(User, { foreignKey: "userId", as: "author" });
