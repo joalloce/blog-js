@@ -17,7 +17,7 @@ export const createUser = async (req, res, next) => {
 
     return res.status(201).json(user);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -35,7 +35,7 @@ export const deleteUser = async (req, res, next) => {
 
     return res.status(204).send();
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -53,7 +53,7 @@ export const getUser = async (req, res, next) => {
 
     return res.json(user);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -82,10 +82,10 @@ export const updateUser = async (req, res, next) => {
 
     await user.save();
 
-    user.passwordHash = undefined; // passwordHash excluded
+    user.dataValues.passwordHash = undefined; // passwordHash excluded
 
     return res.json(user);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };

@@ -15,7 +15,7 @@ export const createComment = async (req, res, next) => {
 
     return res.status(201).json(comment);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -33,7 +33,7 @@ export const deleteComment = async (req, res, next) => {
 
     return res.status(204).send();
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -49,7 +49,7 @@ export const getComment = async (req, res, next) => {
 
     return res.json(comment);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -80,6 +80,6 @@ export const updateComment = async (req, res, next) => {
 
     return res.json(comment);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };

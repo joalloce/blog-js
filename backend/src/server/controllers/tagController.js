@@ -13,7 +13,7 @@ export const createTag = async (req, res, next) => {
 
     return res.status(201).json(tag);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -31,7 +31,7 @@ export const deleteTag = async (req, res, next) => {
 
     return res.status(204).send();
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -56,7 +56,7 @@ export const getTag = async (req, res, next) => {
 
     return res.json(tag);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -85,6 +85,6 @@ export const updateTag = async (req, res, next) => {
 
     return res.json(tag);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };

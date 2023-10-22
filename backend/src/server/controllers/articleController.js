@@ -4,7 +4,7 @@ import generateUUID from "#root/helpers/generateUUID";
 // create an article
 export const createArticle = async (req, res, next) => {
   try {
-    const { title, content, author } = req.body;
+    const { title, content, author, tagIds } = req.body;
 
     const article = await Article.create({
       id: generateUUID(),
@@ -13,9 +13,20 @@ export const createArticle = async (req, res, next) => {
       userId: author,
     });
 
+    if (tagIds && tagIds.length > 0) {
+      await article.setTags(tagIds);
+    }
+
+    const tags = await article.getTags();
+
+    tags.forEach((tag) => (tag.dataValues.articleTags = undefined)); // pivot excluded
+
+    article.dataValues.tags = tags;
+
     return res.status(201).json(article);
   } catch (error) {
-    return res.status(500).json({ error });
+    console.log(error);
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -29,11 +40,13 @@ export const deleteArticle = async (req, res, next) => {
     // check if id is valid
     if (!article) return res.status(404).json({ error: "User not found" });
 
+    await article.setTags([]); // detach tags
+
     await article.destroy();
 
     return res.status(204).send();
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -59,7 +72,7 @@ export const getArticle = async (req, res, next) => {
 
     return res.json(article);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -75,7 +88,7 @@ export const getArticles = async (req, res, next) => {
 // update an article by id
 export const updateArticle = async (req, res, next) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, tagIds } = req.body;
 
     const { id } = req.params;
 
@@ -89,8 +102,18 @@ export const updateArticle = async (req, res, next) => {
 
     await article.save();
 
+    if (tagIds && tagIds.length > 0) {
+      await article.setTags(tagIds);
+    }
+
+    const tags = await article.getTags();
+
+    tags.forEach((tag) => (tag.dataValues.articleTags = undefined)); // pivot excluded
+
+    article.dataValues.tags = tags;
+
     return res.json(article);
   } catch (error) {
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };

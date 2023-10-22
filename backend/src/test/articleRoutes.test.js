@@ -16,11 +16,14 @@ describe("Article API", () => {
   let articleId;
 
   it("should create a new article", async () => {
-    const res = await request(server).post("/api/articles/").send({
-      title: "title",
-      content: "content",
-      author: 1,
-    });
+    const res = await request(server)
+      .post("/api/articles/")
+      .send({
+        title: "title",
+        content: "content",
+        author: 1,
+        tagIds: [1, 2],
+      });
     articleId = res.body.data.id;
     expect(res.statusCode).toEqual(201);
   });
@@ -36,10 +39,13 @@ describe("Article API", () => {
   });
 
   it("should update an article", async () => {
-    const res = await request(server).patch(`/api/articles/${articleId}`).send({
-      title: "title1",
-      content: "content1",
-    });
+    const res = await request(server)
+      .patch(`/api/articles/${articleId}`)
+      .send({
+        title: "title1",
+        content: "content1",
+        tagIds: [3, 4],
+      });
     expect(res.statusCode).toEqual(200);
   });
 
