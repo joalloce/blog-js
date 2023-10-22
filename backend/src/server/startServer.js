@@ -14,6 +14,8 @@ import tagRouter from "#root/server/routes/tags";
 
 const PORT = accessEnv("PORT", 8101);
 const NODE_ENV = accessEnv("NODE_ENV", "development");
+const DEBUG_MODE = accessEnv("DEBUG_MODE", "true");
+const VERBOSE_LOGGING = accessEnv("VERBOSE_LOGGING", "true");
 
 const app = express();
 
@@ -32,9 +34,13 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(debugInfo);
+if (DEBUG_MODE === "true") {
+  app.use(debugInfo);
+}
 
-app.use(morgan(":method :url :status :response-time ms [:date]"));
+if (VERBOSE_LOGGING === "true") {
+  app.use(morgan(":method :url :status :response-time ms [:date]"));
+}
 
 app.use("/api/articles", articleRouter);
 app.use("/api/comments", commentRouter);
