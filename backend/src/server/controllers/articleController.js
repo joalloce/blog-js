@@ -38,7 +38,7 @@ export const deleteArticle = async (req, res, next) => {
     const article = await Article.findByPk(id);
 
     // check if id is valid
-    if (!article) return res.status(404).json({ error: "User not found" });
+    if (!article) return res.status(404).json({ error: "Article not found" });
 
     await article.setTags([]); // detach tags
 
@@ -68,7 +68,7 @@ export const getArticle = async (req, res, next) => {
     });
 
     // check if article exists
-    if (!article) return res.status(404).json({ error: "User not found" });
+    if (!article) return res.status(404).json({ error: "Article not found" });
 
     return res.json(article);
   } catch (error) {
@@ -95,7 +95,7 @@ export const updateArticle = async (req, res, next) => {
     const article = await Article.findByPk(id);
 
     // check if article exists
-    if (!article) return res.status(404).json({ error: "User not found" });
+    if (!article) return res.status(404).json({ error: "Article not found" });
 
     article.title = title;
     article.content = content;

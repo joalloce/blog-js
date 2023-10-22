@@ -19,8 +19,9 @@ services:
     depends_on:
       - db
     environment:
-      - DB_URI=mysql://root:password@db/db?charset=UTF8
-      - TEST_DB_URI=mysql://root:password@db/testing?charset=UTF8
+      - DB_URI=${DB_URI}
+      - TEST_DB_URI=${TEST_DB_URI}
+      - NODE_ENV=${NODE_ENV}
     ports:
       - 8101:8101
     volumes:
@@ -29,8 +30,8 @@ services:
 
   db:
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=db
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     image: mysql:8.1
     ports:
       - 0.0.0.0:8201:3306
