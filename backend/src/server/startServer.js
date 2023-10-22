@@ -1,6 +1,7 @@
 import cors from "cors";
 import bodyParser from "body-parser";
 import express from "express";
+import helmet from "helmet";
 import morgan from "morgan";
 
 import accessEnv from "#root/helpers/accessEnv";
@@ -23,6 +24,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(helmet());
 
 // app.use(express.urlencoded({ extended: true }));
 // app.use(express.json());
