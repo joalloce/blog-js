@@ -1,15 +1,18 @@
 <script setup>
-import Home from "@/views/Home.vue";
 import Header from "@/components/Header.vue";
+import GlobalLoader from "./components/GlobalLoader.vue";
 import Footer from "@/components/Footer.vue";
+
+import { RouterView, useRoute } from "vue-router";
+
+const route = useRoute();
+
 </script>
 
 <template>
-  <div>
-    <Header />
-    <Home />
-    <Footer />
-  </div>
+  <Header />
+  <RouterView :key="route.fullPath" />
+  <Footer />
 </template>
 
 <style scoped></style>

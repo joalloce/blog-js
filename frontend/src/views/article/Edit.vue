@@ -1,6 +1,6 @@
 <template>
   <div>
-    Home - Home
+    <p>edit article</p>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    Home - Home
+    <p>article list</p>
   </div>
 </template>
 

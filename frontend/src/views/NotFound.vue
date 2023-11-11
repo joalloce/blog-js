@@ -1,6 +1,6 @@
 <template>
   <div>
-    Home - Home
+    <p>Not Found</p>
   </div>
 </template>
 
@@ -8,4 +8,4 @@
 
 </script>
 
-<style scoped></style>
+<style  scoped></style>
