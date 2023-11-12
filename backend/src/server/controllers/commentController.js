@@ -83,8 +83,15 @@ export const getComment = async (req, res, next) => {
 
 // get comments
 export const getComments = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  const offset = (page - 1) * limit;
+
   const comments = await Comment.findAll({
     include: [{ model: User, as: "author" }],
+    offset,
+    limit,
   });
 
   comments.forEach((comment) => (comment.dataValues.userId = undefined)); // userId excluded
@@ -96,6 +103,11 @@ export const getComments = async (req, res, next) => {
 export const getReplies = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const offset = (page - 1) * limit;
 
     const comment = await Comment.findByPk(id);
 
@@ -113,6 +125,8 @@ export const getReplies = async (req, res, next) => {
           as: "author",
         },
       ],
+      offset,
+      limit,
     });
 
     replies.forEach((reply) => (reply.dataValues.userId = undefined)); // userId excluded

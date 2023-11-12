@@ -78,8 +78,15 @@ export const getArticle = async (req, res, next) => {
 
 // get articles
 export const getArticles = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  const offset = (page - 1) * limit;
+
   const users = await Article.findAll({
     include: [{ model: User, as: "author" }],
+    offset,
+    limit,
   });
 
   return res.json(users);
