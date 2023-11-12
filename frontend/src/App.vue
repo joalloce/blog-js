@@ -11,7 +11,23 @@ const route = useRoute();
 
 <template>
   <Header />
-  <RouterView :key="route.fullPath" />
+  <RouterView v-slot="{ Component }" :key="route.fullPath">
+    <template v-if="Component">
+      <Transition mode="out-in">
+        <KeepAlive>
+          <Suspense>
+            <!-- main content -->
+            <component :is="Component"></component>
+
+            <!-- loading state -->
+            <template #fallback>
+              <GlobalLoader />
+            </template>
+          </Suspense>
+        </KeepAlive>
+      </Transition>
+    </template>
+  </RouterView>
   <Footer />
 </template>
 
