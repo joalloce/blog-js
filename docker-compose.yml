@@ -9,6 +9,8 @@ services:
     volumes:
       - "./frontend:/opt/app"
       - /opt/app/node_modules
+    environment:
+      - VITE_SERVICE_URL=${VITE_SERVICE_URL}
 
   backend:
     build: "./backend"
