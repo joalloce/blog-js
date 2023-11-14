@@ -22,6 +22,7 @@ services:
       - NODE_ENV=${NODE_ENV}
       - DEBUG_MODE=${DEBUG_MODE}
       - VERBOSE_LOGGING=${VERBOSE_LOGGING}
+      - JWT_SECRET=${JWT_SECRET}
     ports:
       - 8101:8101
     volumes:
