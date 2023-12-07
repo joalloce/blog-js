@@ -12,7 +12,7 @@ export const authenticate = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({
-      attributes: {},
+      attributes: { include: ["passwordHash"] },
       where: { email },
     });
 
@@ -23,7 +23,9 @@ export const authenticate = async (req, res, next) => {
       return res.status(404).json({ error: "Incorrect password" });
     }
 
-    const token = jwt.sign(user, JWT_SECRET);
+    user.dataValues.passwordHash = undefined; // passwordHash excluded
+
+    const token = jwt.sign(user.dataValues, JWT_SECRET);
 
     return res.status(201).json({ token });
   } catch (error) {
@@ -32,24 +34,18 @@ export const authenticate = async (req, res, next) => {
   }
 };
 
-export const logout = async (req, res, next) => {
-  try {
-    return res.status(201).json(true);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: error.message });
-  }
-};
-
+// TODO
 export const my = async (req, res, next) => {
   try {
-    return res.status(201).json(true);
+    console.log(req.user);
+    return res.status(201).json(req.user);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
   }
 };
 
+// TODO
 export const register = async (req, res, next) => {
   try {
     const { email, name, password } = req.body;

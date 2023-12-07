@@ -1,8 +1,9 @@
 import express from "express";
 
+import authenticateToken from "#root/middleware/authenticateToken";
+
 import {
   authenticate,
-  logout,
   my,
   register,
 } from "#root/server/controllers/authController";
@@ -11,9 +12,7 @@ const router = express.Router();
 
 router.post("/authenticate", authenticate);
 
-router.get("/logout", logout);
-
-router.get("/my", my);
+router.get("/my", authenticateToken, my);
 
 router.post("/register", register);
 

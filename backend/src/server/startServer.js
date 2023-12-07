@@ -8,7 +8,7 @@ import accessEnv from "#root/helpers/accessEnv";
 import debugInfo from "#root/middleware/debugInfo";
 
 import articleRouter from "#root/server/routes/articles";
-//import authRouter from "#root/server/routes/auth";
+import authRouter from "#root/server/routes/auth";
 import commentRouter from "#root/server/routes/comments";
 import userRouter from "#root/server/routes/users";
 import tagRouter from "#root/server/routes/tags";
@@ -44,7 +44,7 @@ if (VERBOSE_LOGGING === "true") {
 }
 
 app.use("/api/articles", articleRouter);
-//app.use("/api/auth", authRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/users", userRouter);
 app.use("/api/tags", tagRouter);
