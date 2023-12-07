@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-# creates testing db
-mysql --user="root" --password="password" <<-EOSQL
+MYSQL_USER="${MYSQL_USER:-root}"  
+MYSQL_PASSWORD="${MYSQL_ROOT_PASSWORD:-password}"  
+
+mysql --user="${MYSQL_USER}" --password="${MYSQL_PASSWORD}" <<-EOSQL
     CREATE DATABASE IF NOT EXISTS testing;
-    GRANT ALL PRIVILEGES ON \`testing%\`.* TO 'root'@'%';
+    GRANT ALL PRIVILEGES ON \`testing%\`.* TO '${MYSQL_USER}'@'%';
 EOSQL
