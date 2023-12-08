@@ -3,6 +3,8 @@ import { User } from "#root/db/models";
 import jwt from "jsonwebtoken";
 
 import accessEnv from "#root/helpers/accessEnv";
+import generateUUID from "#root/helpers/generateUUID";
+import hashPassword from "#root/helpers/hashPassword";
 import passwordCompareSync from "#root/helpers/passwordCompareSync";
 
 const JWT_SECRET = accessEnv("JWT_SECRET", "jwtsecret");
@@ -27,18 +29,16 @@ export const authenticate = async (req, res, next) => {
 
     const token = jwt.sign(user.dataValues, JWT_SECRET);
 
-    return res.status(201).json({ token });
+    return res.status(200).json({ token });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
   }
 };
 
-// TODO
 export const my = async (req, res, next) => {
   try {
-    console.log(req.user);
-    return res.status(201).json(req.user);
+    return res.status(200).json(req.user);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
@@ -50,7 +50,20 @@ export const register = async (req, res, next) => {
   try {
     const { email, name, password } = req.body;
 
-    return res.status(201).json(true);
+    const user = await User.create({
+      email,
+      id: generateUUID(),
+      name,
+      passwordHash: hashPassword(password),
+    });
+
+    console.log(user.dataValues);
+
+    user.dataValues.passwordHash = undefined; // passwordHash excluded
+
+    const token = jwt.sign(user.dataValues, JWT_SECRET);
+
+    return res.status(200).json({ token });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
