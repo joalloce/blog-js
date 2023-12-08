@@ -14,7 +14,7 @@ module.exports = {
           allowNull: false,
         });
       }),
-  down: (queryInterface) =>
+  down: (queryInterface, DataTypes) =>
     queryInterface
       .addColumn("comments", "articleId", {
         allowNull: false,
