@@ -22,6 +22,8 @@ const testConnection = async () => {
     console.log("Connection has been established successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);
+    await new Promise((resolve) => setTimeout(resolve, 10000)); // Retry after 10 seconds
+    await testConnection();
   }
 };
 if (NODE_ENV === "development") {
