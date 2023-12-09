@@ -45,7 +45,6 @@ export const my = async (req, res, next) => {
   }
 };
 
-// TODO
 export const register = async (req, res, next) => {
   try {
     const { email, name, password } = req.body;
@@ -56,8 +55,6 @@ export const register = async (req, res, next) => {
       name,
       passwordHash: hashPassword(password),
     });
-
-    console.log(user.dataValues);
 
     user.dataValues.passwordHash = undefined; // passwordHash excluded
 
