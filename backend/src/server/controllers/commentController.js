@@ -4,9 +4,9 @@ import generateUUID from "#root/helpers/generateUUID";
 // create a comment
 export const createComment = async (req, res, next) => {
   try {
-    const { articleId, author, content } = req.body;
+    const { articleId, content } = req.body;
 
-    if (!articleId || !author || !content) {
+    if (!articleId || !content) {
       return res.status(422).json({ error: "Missing required fields" });
     }
 
@@ -15,7 +15,7 @@ export const createComment = async (req, res, next) => {
       commentableType: "article",
       content,
       id: generateUUID(),
-      userId: author,
+      userId: req.user.id,
     });
 
     return res.status(201).json(comment);
@@ -29,7 +29,7 @@ export const createReply = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const { author, content } = req.body;
+    const { content } = req.body;
 
     if (!author || !content) {
       return res.status(422).json({ error: "Missing required fields" });
@@ -40,7 +40,7 @@ export const createReply = async (req, res, next) => {
       commentableType: "comment",
       content,
       id: generateUUID(),
-      userId: author,
+      userId: req.user.id,
     });
     return res.status(201).json(comment);
   } catch (error) {
@@ -57,6 +57,10 @@ export const deleteComment = async (req, res, next) => {
 
     // check if id is valid
     if (!comment) return res.status(404).json({ error: "Comment not found" });
+
+    if (comment.userId !== req.user.id) {
+      return res.status(403);
+    }
 
     await comment.destroy();
 
@@ -162,6 +166,10 @@ export const updateComment = async (req, res, next) => {
 
     // check if comment exists
     if (!comment) return res.status(404).json({ error: "Comment not found" });
+
+    if (comment.userId !== req.user.id) {
+      return res.status(403);
+    }
 
     comment.content = content;
 

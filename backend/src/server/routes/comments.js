@@ -1,5 +1,7 @@
 import express from "express";
 
+import authenticateToken from "#root/middleware/authenticateToken";
+
 import {
   createComment,
   createReply,
@@ -13,7 +15,7 @@ import {
 const router = express.Router();
 
 // id params
-router.delete("/:id", deleteComment);
+router.delete("/:id", authenticateToken, deleteComment);
 
 // id params
 router.get("/:id", getComment);
@@ -22,13 +24,13 @@ router.get("/", getComments);
 
 // id params
 // content
-router.patch("/:id", updateComment);
+router.patch("/:id", authenticateToken, updateComment);
 
 // articleId, content, author
-router.post("/", createComment);
+router.post("/", authenticateToken, createComment);
 
 // id params
-router.post("/:id/replies", createReply);
+router.post("/:id/replies", authenticateToken, createReply);
 
 // id params
 router.get("/:id/replies", getReplies);
