@@ -26,7 +26,7 @@ router.get("/", getComments);
 // content
 router.patch("/:id", authenticateToken, updateComment);
 
-// articleId, content, author
+// articleId, content
 router.post("/", authenticateToken, createComment);
 
 // id params
