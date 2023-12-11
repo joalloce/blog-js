@@ -1,5 +1,7 @@
 import express from "express";
 
+import authenticateToken from "#root/middleware/authenticateToken";
+
 import {
   createTag,
   deleteTag,
@@ -11,7 +13,7 @@ import {
 const router = express.Router();
 
 // id params
-router.delete("/:id", deleteTag);
+router.delete("/:id", authenticateToken, deleteTag);
 
 // id params
 router.get("/:id", getTag);
@@ -20,9 +22,9 @@ router.get("/", getTags);
 
 // id params
 // content
-router.patch("/:id", updateTag);
+router.patch("/:id", authenticateToken, updateTag);
 
 // content
-router.post("/", createTag);
+router.post("/", authenticateToken, createTag);
 
 export default router;

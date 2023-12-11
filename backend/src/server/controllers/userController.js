@@ -34,6 +34,10 @@ export const deleteUser = async (req, res, next) => {
     // check if id is valid
     if (!user) return res.status(404).json({ error: "User not found" });
 
+    if (user.id !== req.user.id) {
+      return res.status(403);
+    }
+
     await user.destroy();
 
     return res.status(204).send();
@@ -87,6 +91,10 @@ export const updateUser = async (req, res, next) => {
 
     // check if user exists
     if (!user) return res.status(404).json({ error: "User not found" });
+
+    if (user.id !== req.user.id) {
+      return res.status(403);
+    }
 
     user.email = email;
     user.passwordHash = hashPassword(password);
