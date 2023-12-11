@@ -4,9 +4,9 @@ import generateUUID from "#root/helpers/generateUUID";
 // create an article
 export const createArticle = async (req, res, next) => {
   try {
-    const { title, content, author, tagIds } = req.body;
+    const { title, content, tagIds } = req.body;
 
-    if (!title || !content || !author) {
+    if (!title || !content) {
       return res.status(422).json({ error: "Missing required fields" });
     }
 
@@ -14,7 +14,7 @@ export const createArticle = async (req, res, next) => {
       id: generateUUID(),
       title,
       content,
-      userId: author,
+      userId: req.user.id,
     });
 
     if (tagIds && tagIds.length > 0) {
@@ -43,6 +43,10 @@ export const deleteArticle = async (req, res, next) => {
 
     // check if id is valid
     if (!article) return res.status(404).json({ error: "Article not found" });
+
+    if (article.userId !== req.user.id) {
+      return res.status(403);
+    }
 
     await article.setTags([]); // detach tags
 
@@ -111,6 +115,10 @@ export const updateArticle = async (req, res, next) => {
 
     // check if article exists
     if (!article) return res.status(404).json({ error: "Article not found" });
+
+    if (article.userId !== req.user.id) {
+      return res.status(403);
+    }
 
     article.title = title;
     article.content = content;
