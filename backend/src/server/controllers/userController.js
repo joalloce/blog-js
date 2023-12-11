@@ -7,6 +7,10 @@ export const createUser = async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
 
+    if (!email || !name || !password) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
+
     const user = await User.create({
       email,
       id: generateUUID(),
@@ -72,6 +76,10 @@ export const getUsers = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
+
+    if (!email || !name || !password) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
 
     const { id } = req.params;
 

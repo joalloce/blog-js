@@ -6,6 +6,10 @@ export const createTag = async (req, res, next) => {
   try {
     const { content } = req.body;
 
+    if (!content) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
+
     const tag = await Tag.create({
       id: generateUUID(),
       content,
@@ -75,9 +79,13 @@ export const getTags = async (req, res, next) => {
 // update a tag by id
 export const updateTag = async (req, res, next) => {
   try {
+    const { id } = req.params;
+
     const { content } = req.body;
 
-    const { id } = req.params;
+    if (!content) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
 
     const tag = await Tag.findByPk(id);
 

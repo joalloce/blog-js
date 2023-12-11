@@ -13,6 +13,10 @@ export const authenticate = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
+
     const user = await User.findOne({
       attributes: { include: ["passwordHash"] },
       where: { email },
@@ -48,6 +52,10 @@ export const my = async (req, res, next) => {
 export const register = async (req, res, next) => {
   try {
     const { email, name, password } = req.body;
+
+    if (!email || !name || !password) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
 
     const user = await User.create({
       email,

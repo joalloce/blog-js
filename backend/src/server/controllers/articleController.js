@@ -6,6 +6,10 @@ export const createArticle = async (req, res, next) => {
   try {
     const { title, content, author, tagIds } = req.body;
 
+    if (!title || !content || !author) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
+
     const article = await Article.create({
       id: generateUUID(),
       title,
@@ -96,6 +100,10 @@ export const getArticles = async (req, res, next) => {
 export const updateArticle = async (req, res, next) => {
   try {
     const { title, content, tagIds } = req.body;
+
+    if (!title || !content) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
 
     const { id } = req.params;
 

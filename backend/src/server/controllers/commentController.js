@@ -6,6 +6,10 @@ export const createComment = async (req, res, next) => {
   try {
     const { articleId, author, content } = req.body;
 
+    if (!articleId || !author || !content) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
+
     const comment = await Comment.create({
       commentableId: articleId,
       commentableType: "article",
@@ -24,7 +28,13 @@ export const createComment = async (req, res, next) => {
 export const createReply = async (req, res, next) => {
   try {
     const { id } = req.params;
+
     const { author, content } = req.body;
+
+    if (!author || !content) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
+
     const comment = await Comment.create({
       commentableId: id,
       commentableType: "comment",
@@ -141,6 +151,10 @@ export const getReplies = async (req, res, next) => {
 export const updateComment = async (req, res, next) => {
   try {
     const { content } = req.body;
+
+    if (!content) {
+      return res.status(422).json({ error: "Missing required fields" });
+    }
 
     const { id } = req.params;
 
