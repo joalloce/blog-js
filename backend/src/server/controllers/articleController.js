@@ -1,13 +1,17 @@
 import { Article, Comment, User, Tag } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
 
+import { HTTP_STATUS_CODES } from "#root/config";
+
 // create an article
 export const createArticle = async (req, res, next) => {
   try {
     const { title, content, tagIds } = req.body;
 
     if (!title || !content) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const article = await Article.create({
@@ -27,10 +31,12 @@ export const createArticle = async (req, res, next) => {
 
     article.dataValues.tags = tags;
 
-    return res.status(201).json(article);
+    return res.status(HTTP_STATUS_CODES.CREATED).json(article);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -42,19 +48,24 @@ export const deleteArticle = async (req, res, next) => {
     const article = await Article.findByPk(id);
 
     // check if id is valid
-    if (!article) return res.status(404).json({ error: "Article not found" });
+    if (!article)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "Article not found" });
 
     if (article.userId !== req.user.id) {
-      return res.status(403);
+      return res.status(HTTP_STATUS_CODES.FORBIDDEN);
     }
 
     await article.setTags([]); // detach tags
 
     await article.destroy();
 
-    return res.status(204).send();
+    return res.status(HTTP_STATUS_CODES.NO_CONTENT).send();
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -76,11 +87,16 @@ export const getArticle = async (req, res, next) => {
     });
 
     // check if article exists
-    if (!article) return res.status(404).json({ error: "Article not found" });
+    if (!article)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "Article not found" });
 
     return res.json(article);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -106,7 +122,9 @@ export const updateArticle = async (req, res, next) => {
     const { title, content, tagIds } = req.body;
 
     if (!title || !content) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const { id } = req.params;
@@ -117,7 +135,7 @@ export const updateArticle = async (req, res, next) => {
     if (!article) return res.status(404).json({ error: "Article not found" });
 
     if (article.userId !== req.user.id) {
-      return res.status(403);
+      return res.status(HTTP_STATUS_CODES.FORBIDDEN);
     }
 
     article.title = title;
@@ -137,6 +155,8 @@ export const updateArticle = async (req, res, next) => {
 
     return res.json(article);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };

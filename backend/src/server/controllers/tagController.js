@@ -1,13 +1,17 @@
 import { Article, Tag } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
 
+import { HTTP_STATUS_CODES } from "#root/config";
+
 // create a tag
 export const createTag = async (req, res, next) => {
   try {
     const { content } = req.body;
 
     if (!content) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const tag = await Tag.create({
@@ -15,9 +19,11 @@ export const createTag = async (req, res, next) => {
       content,
     });
 
-    return res.status(201).json(tag);
+    return res.status(HTTP_STATUS_CODES.CREATED).json(tag);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -29,13 +35,18 @@ export const deleteTag = async (req, res, next) => {
     const tag = await Tag.findByPk(id);
 
     // check if id is valid
-    if (!tag) return res.status(404).json({ error: "Tag not found" });
+    if (!tag)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "Tag not found" });
 
     await tag.destroy();
 
-    return res.status(204).send();
+    return res.status(HTTP_STATUS_CODES.NO_CONTENT).send();
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -56,11 +67,16 @@ export const getTag = async (req, res, next) => {
     });
 
     // check if tag exists
-    if (!tag) return res.status(404).json({ error: "Tag not found" });
+    if (!tag)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "Tag not found" });
 
     return res.json(tag);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -84,13 +100,18 @@ export const updateTag = async (req, res, next) => {
     const { content } = req.body;
 
     if (!content) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const tag = await Tag.findByPk(id);
 
     // check if tag exists
-    if (!tag) return res.status(404).json({ error: "Tag not found" });
+    if (!tag)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "Tag not found" });
 
     tag.content = content;
 
@@ -98,6 +119,8 @@ export const updateTag = async (req, res, next) => {
 
     return res.json(tag);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };

@@ -2,13 +2,17 @@ import { User, Article } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
 import hashPassword from "#root/helpers/hashPassword";
 
+import { HTTP_STATUS_CODES } from "#root/config";
+
 // create an user
 export const createUser = async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
 
     if (!email || !name || !password) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const user = await User.create({
@@ -18,9 +22,11 @@ export const createUser = async (req, res, next) => {
       passwordHash: hashPassword(password),
     });
 
-    return res.status(201).json(user);
+    return res.status(HTTP_STATUS_CODES.CREATED).json(user);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -32,17 +38,22 @@ export const deleteUser = async (req, res, next) => {
     const user = await User.findByPk(id);
 
     // check if id is valid
-    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "User not found" });
 
     if (user.id !== req.user.id) {
-      return res.status(403);
+      return res.status(HTTP_STATUS_CODES.FORBIDDEN);
     }
 
     await user.destroy();
 
-    return res.status(204).send();
+    return res.status(HTTP_STATUS_CODES.NO_CONTENT).send();
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -56,11 +67,16 @@ export const getUser = async (req, res, next) => {
     });
 
     // check if user exists
-    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "User not found" });
 
     return res.json(user);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -82,7 +98,9 @@ export const updateUser = async (req, res, next) => {
     const { email, password, name } = req.body;
 
     if (!email || !name || !password) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const { id } = req.params;
@@ -90,10 +108,13 @@ export const updateUser = async (req, res, next) => {
     const user = await User.findByPk(id);
 
     // check if user exists
-    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "User not found" });
 
     if (user.id !== req.user.id) {
-      return res.status(403);
+      return res.status(HTTP_STATUS_CODES.FORBIDDEN);
     }
 
     user.email = email;
@@ -106,6 +127,8 @@ export const updateUser = async (req, res, next) => {
 
     return res.json(user);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };

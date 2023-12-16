@@ -7,6 +7,8 @@ import generateUUID from "#root/helpers/generateUUID";
 import hashPassword from "#root/helpers/hashPassword";
 import passwordCompareSync from "#root/helpers/passwordCompareSync";
 
+import { HTTP_STATUS_CODES } from "#root/config";
+
 const JWT_SECRET = accessEnv("JWT_SECRET", "jwtsecret");
 
 export const authenticate = async (req, res, next) => {
@@ -14,7 +16,9 @@ export const authenticate = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const user = await User.findOne({
@@ -23,29 +27,38 @@ export const authenticate = async (req, res, next) => {
     });
 
     // check if user exists
-    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!user)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "User not found" });
 
     if (!passwordCompareSync(password, user.passwordHash)) {
-      return res.status(404).json({ error: "Incorrect password" });
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "Incorrect password" });
     }
 
     user.dataValues.passwordHash = undefined; // passwordHash excluded
 
     const token = jwt.sign(user.dataValues, JWT_SECRET);
 
-    return res.status(200).json({ token });
+    return res.json({ token });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
 export const my = async (req, res, next) => {
   try {
-    return res.status(200).json(req.user);
+    return res.json(req.user);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -54,7 +67,9 @@ export const register = async (req, res, next) => {
     const { email, name, password } = req.body;
 
     if (!email || !name || !password) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const user = await User.create({
@@ -68,9 +83,11 @@ export const register = async (req, res, next) => {
 
     const token = jwt.sign(user.dataValues, JWT_SECRET);
 
-    return res.status(200).json({ token });
+    return res.json({ token });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };

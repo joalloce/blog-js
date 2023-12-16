@@ -1,13 +1,17 @@
 import { User, Comment } from "#root/db/models";
 import generateUUID from "#root/helpers/generateUUID";
 
+import { HTTP_STATUS_CODES } from "#root/config";
+
 // create a comment
 export const createComment = async (req, res, next) => {
   try {
     const { articleId, content } = req.body;
 
     if (!articleId || !content) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const comment = await Comment.create({
@@ -18,7 +22,7 @@ export const createComment = async (req, res, next) => {
       userId: req.user.id,
     });
 
-    return res.status(201).json(comment);
+    return res.status(HTTP_STATUS_CODES.CREATED).json(comment);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -32,7 +36,9 @@ export const createReply = async (req, res, next) => {
     const { content } = req.body;
 
     if (!author || !content) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const comment = await Comment.create({
@@ -42,9 +48,11 @@ export const createReply = async (req, res, next) => {
       id: generateUUID(),
       userId: req.user.id,
     });
-    return res.status(201).json(comment);
+    return res.status(HTTP_STATUS_CODES.CREATED).json(comment);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -56,17 +64,22 @@ export const deleteComment = async (req, res, next) => {
     const comment = await Comment.findByPk(id);
 
     // check if id is valid
-    if (!comment) return res.status(404).json({ error: "Comment not found" });
+    if (!comment)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "Comment not found" });
 
     if (comment.userId !== req.user.id) {
-      return res.status(403);
+      return res.status(HTTP_STATUS_CODES.FORBIDDEN);
     }
 
     await comment.destroy();
 
-    return res.status(204).send();
+    return res.status(HTTP_STATUS_CODES.NO_CONTENT).send();
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -85,13 +98,18 @@ export const getComment = async (req, res, next) => {
     });
 
     // check if comment exists
-    if (!comment) return res.status(404).json({ error: "Comment not found" });
+    if (!comment)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "Comment not found" });
 
     comment.dataValues.userId = undefined; // userId excluded
 
     return res.json(comment);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -126,7 +144,10 @@ export const getReplies = async (req, res, next) => {
     const comment = await Comment.findByPk(id);
 
     // check if comment exists
-    if (!comment) return res.status(404).json({ error: "Comment not found" });
+    if (!comment)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "Comment not found" });
 
     const replies = await Comment.findAll({
       where: {
@@ -147,7 +168,9 @@ export const getReplies = async (req, res, next) => {
 
     return res.json(replies);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
@@ -157,7 +180,9 @@ export const updateComment = async (req, res, next) => {
     const { content } = req.body;
 
     if (!content) {
-      return res.status(422).json({ error: "Missing required fields" });
+      return res
+        .status(HTTP_STATUS_CODES.UNPROCESSABLE_ENTITY)
+        .json({ error: "Missing required fields" });
     }
 
     const { id } = req.params;
@@ -165,10 +190,13 @@ export const updateComment = async (req, res, next) => {
     const comment = await Comment.findByPk(id);
 
     // check if comment exists
-    if (!comment) return res.status(404).json({ error: "Comment not found" });
+    if (!comment)
+      return res
+        .status(HTTP_STATUS_CODES.NOT_FOUND)
+        .json({ error: "Comment not found" });
 
     if (comment.userId !== req.user.id) {
-      return res.status(403);
+      return res.status(HTTP_STATUS_CODES.FORBIDDEN);
     }
 
     comment.content = content;
@@ -177,6 +205,8 @@ export const updateComment = async (req, res, next) => {
 
     return res.json(comment);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res
+      .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
